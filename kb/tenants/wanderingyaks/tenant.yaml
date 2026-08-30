@@ -1,0 +1,35 @@
+# Tenant profile and operating policy.
+#
+# LAYER: tenant. Everything here is specific to one tour operator. A second
+# operator is a second directory under kb/tenants/, not a code change.
+#
+# The `policy` block holds the thresholds verify.ts enforces. They live at the
+# tenant layer because operators genuinely differ: a trekking outfit pushes
+# longer drive days than a family-touring operator, and both are correct for
+# their own clients.
+id: wanderingyaks
+name: Wandering Yaks
+regions: [gilgit-baltistan]
+currency: USD
+
+policy:
+  # Maximum total driving in one day, summed across that day's segments.
+  # OPERATOR INPUT REQUIRED - placeholder based on general touring practice.
+  maxDriveHoursPerDay: 6.0
+
+  # Acclimatisation. Above `altitudeRuleAboveM`, sleeping elevation may rise by
+  # at most `maxSleepGainPerDayM` from the previous night.
+  #
+  # Unlike the drive threshold this is a medical guideline, not a preference.
+  # It is tenant-scoped only so an operator running technical trekking can
+  # tighten it - raising it is not a supported customisation.
+  altitudeRuleAboveM: 2500
+  maxSleepGainPerDayM: 600
+
+  # Margin applied by price.ts over the summed cost lines.
+  # OPERATOR INPUT REQUIRED - placeholder.
+  marginPct: 0.18
+
+  # A brief whose budget is exceeded by more than this fraction is flagged to
+  # the operator as a soft violation rather than silently repriced.
+  budgetTolerancePct: 0.10

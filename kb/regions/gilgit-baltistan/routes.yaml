@@ -1,0 +1,133 @@
+# Drive segments between locations.
+#
+# LAYER: region. Road facts, shared across tenants.
+#
+# id is always "from>to". verify.ts treats a segment it cannot find as an
+# UNKNOWN_SEGMENT violation rather than assuming a default duration - an
+# invented road is exactly the failure mode this file exists to catch.
+#
+# driveHours is realistic moving time for a tour vehicle including normal stops,
+# NOT best-case mapping-app time. maxAltitudeM is the highest point crossed on
+# the segment, which matters for passengers even when they do not sleep there.
+meta:
+  region: gilgit-baltistan
+  verified: false # PENDING OPERATOR SIGN-OFF - these numbers drive the DRIVE_HOURS check
+  source: operator estimate placeholder
+
+routes:
+  - id: islamabad>chilas
+    driveHours: 10.0
+    maxAltitudeM: 1265
+    roadQuality: paved
+    note: Via Hazara Motorway and KKH. Long day; commonly split.
+  - id: chilas>gilgit
+    driveHours: 4.0
+    maxAltitudeM: 1500
+    roadQuality: paved
+  - id: chilas>skardu
+    driveHours: 7.0
+    maxAltitudeM: 2230
+    roadQuality: paved
+  - id: gilgit>skardu
+    driveHours: 6.0
+    maxAltitudeM: 2230
+    roadQuality: paved
+  - id: gilgit>karimabad
+    driveHours: 3.0
+    maxAltitudeM: 2400
+    roadQuality: paved
+  - id: gilgit>naltar
+    driveHours: 2.5
+    maxAltitudeM: 2900
+    roadQuality: jeep_track
+  - id: gilgit>nagar
+    driveHours: 2.5
+    maxAltitudeM: 2400
+    roadQuality: paved
+  - id: skardu>shigar
+    driveHours: 1.0
+    maxAltitudeM: 2400
+    roadQuality: paved
+  - id: skardu>khaplu
+    driveHours: 3.0
+    maxAltitudeM: 2600
+    roadQuality: paved
+  - id: skardu>kachura
+    driveHours: 0.75
+    maxAltitudeM: 2500
+    roadQuality: paved
+  - id: skardu>deosai
+    driveHours: 4.5
+    maxAltitudeM: 4100
+    roadQuality: jeep_track
+    note: Jeep only. Impassable outside the season window in seasons.yaml.
+  - id: deosai>astore
+    driveHours: 5.0
+    maxAltitudeM: 4100
+    roadQuality: jeep_track
+  - id: gilgit>fairy_meadows
+    driveHours: 5.5
+    maxAltitudeM: 3300
+    roadQuality: jeep_track
+    note: Jeep to Tato, then a 1.5-2h walk. Not vehicle-accessible to the meadow.
+  - id: chilas>fairy_meadows
+    driveHours: 3.5
+    maxAltitudeM: 3300
+    roadQuality: jeep_track
+  - id: karimabad>attabad
+    driveHours: 0.75
+    maxAltitudeM: 2400
+    roadQuality: paved
+  - id: karimabad>gulmit
+    driveHours: 1.25
+    maxAltitudeM: 2500
+    roadQuality: paved
+  - id: karimabad>passu
+    driveHours: 1.5
+    maxAltitudeM: 2500
+    roadQuality: paved
+  - id: passu>sost
+    driveHours: 1.0
+    maxAltitudeM: 2800
+    roadQuality: paved
+  - id: sost>khunjerab
+    driveHours: 2.0
+    maxAltitudeM: 4693
+    roadQuality: paved
+    note: Day trip only. Return to Sost or Passu the same day.
+  - id: passu>shimshal
+    driveHours: 3.0
+    maxAltitudeM: 3100
+    roadQuality: jeep_track
+  - id: karimabad>gilgit
+    driveHours: 3.0
+    maxAltitudeM: 2400
+    roadQuality: paved
+  - id: skardu>gilgit
+    driveHours: 6.0
+    maxAltitudeM: 2230
+    roadQuality: paved
+  - id: gilgit>islamabad
+    driveHours: 14.0
+    maxAltitudeM: 1500
+    roadQuality: paved
+    note: Overland only. Most itineraries fly this leg; flights cancel often.
+  - id: shigar>khaplu
+    driveHours: 3.5
+    maxAltitudeM: 2600
+    roadQuality: paved
+    note: Via Skardu. There is no direct Shigar-Khaplu road.
+  - id: karimabad>nagar
+    driveHours: 0.75
+    maxAltitudeM: 2400
+    roadQuality: paved
+  - id: nagar>rakaposhi_bc
+    driveHours: 1.5
+    maxAltitudeM: 3500
+    roadQuality: foot
+    note: Trailhead drive plus ascent on foot.
+  - id: nagar>rush_lake
+    driveHours: 2.0
+    maxAltitudeM: 4694
+    roadQuality: foot
+    note: Multi-day trek in practice; hours here cover the approach only.

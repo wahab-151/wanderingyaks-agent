@@ -1,0 +1,49 @@
+# The operator's published catalog, used by router.ts to recommend an existing
+# trip instead of composing a new one.
+#
+# LAYER: tenant.
+#
+# SCOPE NOTE: only packages whose locations are fully covered by a loaded region
+# are listed here. Wandering Yaks also sells Chitral / Kalash / Hindukush trips;
+# those cannot be verified until kb/regions/chitral-hindukush/ exists, and
+# listing them without that region would let the router recommend an itinerary
+# no rule in the system can check. They are deliberately absent.
+#
+# fromUsd values are the published list prices from the existing catalog and are
+# NOT derived from inventory.yaml. price.ts never reads this file.
+meta:
+  tenant: wanderingyaks
+  pricesVerified: false
+
+packages:
+  - id: hunza_cultural_10d
+    title: Hunza Cultural Tour
+    nights: 9
+    locations: [islamabad, gilgit, karimabad, attabad, gulmit, passu, nagar]
+    fitness: low
+    fromUsd: 1690
+    bestMonths: [4, 5, 6, 7, 8, 9, 10]
+
+  - id: karakoram_treks_19d
+    title: Great Karakoram Treks
+    nights: 18
+    locations: [islamabad, gilgit, karimabad, nagar, rakaposhi_bc, rush_lake, passu]
+    fitness: high
+    fromUsd: 2340
+    bestMonths: [6, 7, 8, 9]
+
+  - id: fairy_meadows_7d
+    title: Fairy Meadows and Nanga Parbat
+    nights: 6
+    locations: [islamabad, chilas, fairy_meadows, gilgit]
+    fitness: moderate
+    fromUsd: 1290
+    bestMonths: [5, 6, 7, 8, 9, 10]
+
+  - id: skardu_baltistan_8d
+    title: Skardu and Baltistan
+    nights: 7
+    locations: [islamabad, skardu, shigar, khaplu, kachura]
+    fitness: low
+    fromUsd: 1150
+    bestMonths: [4, 5, 6, 7, 8, 9, 10]

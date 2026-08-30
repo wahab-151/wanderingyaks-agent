@@ -1,0 +1,83 @@
+# Locations in the Gilgit-Baltistan operating region.
+#
+# LAYER: region. These are geographic facts, shared by every tenant operating
+# here. They are not commercial data and contain no operator-specific values.
+#
+# elevationM is the SLEEPING elevation of the settlement, not the summit or the
+# highest point reachable from it. verify.ts uses it for acclimatisation checks,
+# so an inflated value produces false violations and a deflated one lets a
+# dangerous itinerary through.
+meta:
+  region: gilgit-baltistan
+  country: PK
+  verified: false # PENDING OPERATOR SIGN-OFF - see docs/KB-SOURCES.md
+  source: compiled from public geographic data, not yet checked against operator records
+
+locations:
+  - id: islamabad
+    name: Islamabad
+    elevationM: 540
+    isGateway: true
+  - id: chilas
+    name: Chilas
+    elevationM: 1265
+  - id: gilgit
+    name: Gilgit
+    elevationM: 1500
+    isGateway: true
+  - id: skardu
+    name: Skardu
+    elevationM: 2230
+    isGateway: true
+  - id: shigar
+    name: Shigar
+    elevationM: 2300
+  - id: khaplu
+    name: Khaplu
+    elevationM: 2600
+  - id: kachura
+    name: Kachura (Shangrila / Upper Kachura)
+    elevationM: 2500
+  - id: deosai
+    name: Deosai Plains
+    elevationM: 4100
+  - id: astore
+    name: Astore
+    elevationM: 2600
+  - id: fairy_meadows
+    name: Fairy Meadows
+    elevationM: 3300
+  - id: karimabad
+    name: Karimabad (Hunza)
+    elevationM: 2400
+  - id: attabad
+    name: Attabad Lake
+    elevationM: 2400
+  - id: gulmit
+    name: Gulmit
+    elevationM: 2500
+  - id: passu
+    name: Passu
+    elevationM: 2500
+  - id: sost
+    name: Sost
+    elevationM: 2800
+  - id: khunjerab
+    name: Khunjerab Pass
+    elevationM: 4693
+    isDaytripOnly: true # no accommodation; sleeping here is always a violation
+  - id: shimshal
+    name: Shimshal
+    elevationM: 3100
+  - id: naltar
+    name: Naltar
+    elevationM: 2900
+  - id: nagar
+    name: Nagar Valley
+    elevationM: 2400
+  - id: rakaposhi_bc
+    name: Rakaposhi Base Camp
+    elevationM: 3500
+  - id: rush_lake
+    name: Rush Lake
+    elevationM: 4694

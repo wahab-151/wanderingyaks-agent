@@ -1,0 +1,47 @@
+# Permit and restricted-zone rules.
+#
+# LAYER: region. Government rules, shared across tenants.
+#
+# Two independent mechanisms:
+#   restrictedZones  - a place that needs a permit, possibly only for some
+#                      nationalities, with a lead time before travel.
+#   nationalityRules - a rule attached to the traveller rather than the place,
+#                      e.g. an NOC required regardless of destination.
+#
+# leadTimeDays counts from the run date to the date the client would ARRIVE at
+# that location, not to the trip start date.
+meta:
+  region: gilgit-baltistan
+  verified: false # PENDING OPERATOR SIGN-OFF - permit rules change; recheck every season
+  source: operator estimate placeholder
+
+restrictedZones:
+  - id: deosai
+    name: Deosai National Park
+    requiresPermit: true
+    appliesTo: [foreign] # "foreign" means any nationality other than PK
+    leadTimeDays: 3
+  - id: khunjerab
+    name: Khunjerab National Park
+    requiresPermit: true
+    appliesTo: [foreign, domestic]
+    leadTimeDays: 1
+  - id: shimshal
+    name: Shimshal Valley
+    requiresPermit: true
+    appliesTo: [foreign]
+    leadTimeDays: 7
+  - id: rush_lake
+    name: Rush Lake trekking zone
+    requiresPermit: true
+    appliesTo: [foreign]
+    leadTimeDays: 14
+
+nationalityRules:
+  default:
+    nocRequired: false
+    leadTimeDays: 0
+  IN:
+    nocRequired: true
+    leadTimeDays: 30
+    note: Indian nationals require an NOC for Gilgit-Baltistan. Long lead time.

@@ -1,0 +1,170 @@
+# Bookable inventory and unit rates.
+#
+# LAYER: tenant. These are commercial terms - which properties this operator
+# holds contracts with, and what they pay. Another operator in the same valleys
+# has a different file.
+#
+# ============================================================================
+# EVERY RATE IN THIS FILE IS A PLACEHOLDER.
+#
+# No real Wandering Yaks cost data was available when this file was written.
+# The numbers are order-of-magnitude guesses that let the pipeline run end to
+# end; they are NOT the operator's rates and must not appear in a real quote.
+#
+# price.ts reads this file and nothing else for cost. Replacing these values
+# with the real cost sheet is the single highest-value data task in the project.
+# See docs/KB-SOURCES.md for exactly which numbers are needed.
+# ============================================================================
+meta:
+  tenant: wanderingyaks
+  ratesVerified: false
+  currency: USD
+
+hotels:
+  - id: shangrila_kachura
+    name: Shangrila Resort
+    location: kachura
+    tier: premium
+    ratePerRoomUsd: 120
+    maxOccupancy: 2
+  - id: skardu_serena
+    name: Serena Shigar Fort
+    location: shigar
+    tier: premium
+    ratePerRoomUsd: 150
+    maxOccupancy: 2
+  - id: skardu_midrange
+    name: Skardu mid-range hotel
+    location: skardu
+    tier: standard
+    ratePerRoomUsd: 55
+    maxOccupancy: 2
+  - id: skardu_budget
+    name: Skardu guesthouse
+    location: skardu
+    tier: budget
+    ratePerRoomUsd: 30
+    maxOccupancy: 2
+  - id: khaplu_palace
+    name: Khaplu Palace
+    location: khaplu
+    tier: premium
+    ratePerRoomUsd: 140
+    maxOccupancy: 2
+  - id: khaplu_guesthouse
+    name: Khaplu guesthouse
+    location: khaplu
+    tier: standard
+    ratePerRoomUsd: 45
+    maxOccupancy: 2
+  - id: hunza_standard
+    name: Karimabad hotel
+    location: karimabad
+    tier: standard
+    ratePerRoomUsd: 60
+    maxOccupancy: 2
+  - id: hunza_budget
+    name: Karimabad guesthouse
+    location: karimabad
+    tier: budget
+    ratePerRoomUsd: 32
+    maxOccupancy: 2
+  - id: gulmit_guesthouse
+    name: Gulmit guesthouse
+    location: gulmit
+    tier: standard
+    ratePerRoomUsd: 40
+    maxOccupancy: 2
+  - id: passu_inn
+    name: Passu inn
+    location: passu
+    tier: standard
+    ratePerRoomUsd: 45
+    maxOccupancy: 2
+  - id: fairy_meadows_huts
+    name: Fairy Meadows log huts
+    location: fairy_meadows
+    tier: basic
+    ratePerRoomUsd: 35
+    maxOccupancy: 2
+  - id: shimshal_homestay
+    name: Shimshal homestay
+    location: shimshal
+    tier: basic
+    ratePerRoomUsd: 25
+    maxOccupancy: 2
+  - id: gilgit_standard
+    name: Gilgit hotel
+    location: gilgit
+    tier: standard
+    ratePerRoomUsd: 50
+    maxOccupancy: 2
+  - id: chilas_transit
+    name: Chilas transit hotel
+    location: chilas
+    tier: standard
+    ratePerRoomUsd: 45
+    maxOccupancy: 2
+  - id: islamabad_standard
+    name: Islamabad hotel
+    location: islamabad
+    tier: standard
+    ratePerRoomUsd: 70
+    maxOccupancy: 2
+  - id: deosai_camp
+    name: Deosai fixed camp
+    location: deosai
+    tier: basic
+    ratePerRoomUsd: 40
+    maxOccupancy: 2
+
+transport:
+  - id: jeep
+    name: 4x4 jeep
+    ratePerDayUsd: 85
+    maxPax: 4
+    requiredFor: [jeep_track]
+  - id: sedan
+    name: Sedan
+    ratePerDayUsd: 60
+    maxPax: 3
+    requiredFor: []
+  - id: hiace
+    name: Hiace van
+    ratePerDayUsd: 110
+    maxPax: 12
+    requiredFor: []
+  - id: coaster
+    name: Coaster bus
+    ratePerDayUsd: 140
+    maxPax: 18
+    requiredFor: []
+
+staff:
+  - id: guide
+    name: Tour guide
+    ratePerDayUsd: 40
+    perGroup: true
+  - id: porter
+    name: Porter
+    ratePerDayUsd: 25
+    perGroup: false
+  - id: cook
+    name: Trek cook
+    ratePerDayUsd: 30
+    perGroup: true
+
+# Fixed per-person costs not tied to a night or a vehicle day.
+extras:
+  - id: permit_deosai
+    name: Deosai National Park entry
+    unitUsd: 8
+    per: person
+  - id: permit_khunjerab
+    name: Khunjerab National Park entry
+    unitUsd: 20
+    per: person
+  - id: flight_isb_skardu
+    name: Islamabad-Skardu domestic flight
+    unitUsd: 95
+    per: person

@@ -1,0 +1,59 @@
+# Seasonal accessibility windows.
+#
+# LAYER: region. When a road or valley is physically open. Shared across tenants.
+#
+# opens/closes are MM-DD and inclusive. A window that wraps the year end is not
+# supported; nothing in this region needs one.
+#
+# This file is a large part of why the agent beats a generic model. A general
+# LLM will happily route a client across Deosai in April.
+meta:
+  region: gilgit-baltistan
+  verified: false # PENDING OPERATOR SIGN-OFF - the CLOSED check is only as good as this file
+  source: operator estimate placeholder
+
+seasons:
+  deosai:
+    opens: "06-15"
+    closes: "10-10"
+    note: Snowbound outside this window; the jeep track is impassable.
+  fairy_meadows:
+    opens: "05-01"
+    closes: "10-31"
+    note: Final approach on foot or jeep. Weather dependent even in season.
+  khunjerab:
+    opens: "05-01"
+    closes: "11-30"
+    note: Pass and border closed in winter.
+  rush_lake:
+    opens: "06-15"
+    closes: "09-30"
+  rakaposhi_bc:
+    opens: "06-01"
+    closes: "09-30"
+  shimshal:
+    opens: "05-01"
+    closes: "10-31"
+  naltar:
+    opens: "04-01"
+    closes: "11-15"
+    note: Reachable in winter by jeep in good conditions; treated as closed by default.
+  astore:
+    opens: "04-15"
+    closes: "11-15"
+
+  # Year-round locations, listed explicitly rather than defaulting to open, so
+  # that a location missing from this file is a load error and not a silent pass.
+  islamabad: { opens: "01-01", closes: "12-31" }
+  chilas: { opens: "01-01", closes: "12-31" }
+  gilgit: { opens: "01-01", closes: "12-31" }
+  skardu: { opens: "01-01", closes: "12-31" }
+  shigar: { opens: "01-01", closes: "12-31" }
+  khaplu: { opens: "01-01", closes: "12-31" }
+  kachura: { opens: "01-01", closes: "12-31" }
+  karimabad: { opens: "01-01", closes: "12-31" }
+  attabad: { opens: "01-01", closes: "12-31" }
+  gulmit: { opens: "01-01", closes: "12-31" }
+  passu: { opens: "01-01", closes: "12-31" }
+  sost: { opens: "01-01", closes: "12-31" }
+  nagar: { opens: "01-01", closes: "12-31" }
