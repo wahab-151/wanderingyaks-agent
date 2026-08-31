@@ -1,0 +1,385 @@
+{
+  "model": "gpt-5",
+  "tenantId": "wanderingyaks",
+  "at": "2026-08-31T06:31:36.942Z",
+  "summaries": [
+    {
+      "system": "baseline",
+      "cases": 3,
+      "failedRuns": 0,
+      "sendable": 0,
+      "meanHard": 23.666666666666668,
+      "meanFeasibilityHard": 0.6666666666666666,
+      "meanGroundingHard": 23,
+      "meanFidelityHard": 0,
+      "meanScoreableFraction": 0.9444444444444445,
+      "totalCostUsd": 0.43600875,
+      "meanLatencyMs": 194481.66666666666,
+      "totalRepairs": 0
+    },
+    {
+      "system": "agent",
+      "cases": 3,
+      "failedRuns": 0,
+      "sendable": 3,
+      "meanHard": 0,
+      "meanFeasibilityHard": 0,
+      "meanGroundingHard": 0,
+      "meanFidelityHard": 0,
+      "meanScoreableFraction": 1,
+      "totalCostUsd": 0.2962025,
+      "meanLatencyMs": 118188.33333333333,
+      "totalRepairs": 0
+    },
+    {
+      "system": "agent-norepair",
+      "cases": 3,
+      "failedRuns": 0,
+      "sendable": 3,
+      "meanHard": 0,
+      "meanFeasibilityHard": 0,
+      "meanGroundingHard": 0,
+      "meanFidelityHard": 0,
+      "meanScoreableFraction": 1,
+      "totalCostUsd": 0.35334625,
+      "meanLatencyMs": 138865.66666666666,
+      "totalRepairs": 0
+    }
+  ],
+  "scores": [
+    {
+      "caseId": "case-01-april-deosai",
+      "system": "baseline",
+      "hard": 29,
+      "soft": 0,
+      "byFamily": {
+        "grounding": 29,
+        "feasibility": 0,
+        "fidelity": 0,
+        "advisory": 0
+      },
+      "hardByFamily": {
+        "grounding": 29,
+        "feasibility": 0,
+        "fidelity": 0,
+        "advisory": 0
+      },
+      "codes": [
+        "NO_INVENTORY",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT",
+        "NO_INVENTORY",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT",
+        "NO_INVENTORY",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT",
+        "NO_INVENTORY",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT",
+        "NO_INVENTORY",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT",
+        "NO_INVENTORY",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT",
+        "NO_INVENTORY",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT"
+      ],
+      "scoreability": {
+        "totalDays": 8,
+        "feasibilityCheckedDays": 8,
+        "unknownLocations": []
+      },
+      "sendable": false,
+      "costUsd": 0.13407125,
+      "latencyMs": 140049,
+      "llmCalls": 2
+    },
+    {
+      "caseId": "case-01-april-deosai",
+      "system": "agent",
+      "hard": 0,
+      "soft": 0,
+      "byFamily": {
+        "grounding": 0,
+        "feasibility": 0,
+        "fidelity": 0,
+        "advisory": 0
+      },
+      "hardByFamily": {
+        "grounding": 0,
+        "feasibility": 0,
+        "fidelity": 0,
+        "advisory": 0
+      },
+      "codes": [],
+      "scoreability": {
+        "totalDays": 8,
+        "feasibilityCheckedDays": 8,
+        "unknownLocations": []
+      },
+      "sendable": true,
+      "costUsd": 0.09384125,
+      "latencyMs": 114675,
+      "llmCalls": 2,
+      "repairAttempts": 0
+    },
+    {
+      "caseId": "case-01-april-deosai",
+      "system": "agent-norepair",
+      "hard": 0,
+      "soft": 0,
+      "byFamily": {
+        "grounding": 0,
+        "feasibility": 0,
+        "fidelity": 0,
+        "advisory": 0
+      },
+      "hardByFamily": {
+        "grounding": 0,
+        "feasibility": 0,
+        "fidelity": 0,
+        "advisory": 0
+      },
+      "codes": [],
+      "scoreability": {
+        "totalDays": 8,
+        "feasibilityCheckedDays": 8,
+        "unknownLocations": []
+      },
+      "sendable": true,
+      "costUsd": 0.10776249999999998,
+      "latencyMs": 126090,
+      "llmCalls": 2,
+      "repairAttempts": 0
+    },
+    {
+      "caseId": "case-02-summer-hunza",
+      "system": "baseline",
+      "hard": 26,
+      "soft": 0,
+      "byFamily": {
+        "grounding": 26,
+        "feasibility": 0,
+        "fidelity": 0,
+        "advisory": 0
+      },
+      "hardByFamily": {
+        "grounding": 26,
+        "feasibility": 0,
+        "fidelity": 0,
+        "advisory": 0
+      },
+      "codes": [
+        "NO_INVENTORY",
+        "UNKNOWN_SEGMENT",
+        "NO_INVENTORY",
+        "NO_INVENTORY",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT",
+        "NO_INVENTORY",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT",
+        "NO_INVENTORY",
+        "UNKNOWN_SEGMENT",
+        "NO_INVENTORY",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT",
+        "NO_INVENTORY",
+        "UNKNOWN_SEGMENT",
+        "NO_INVENTORY",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT",
+        "NO_INVENTORY",
+        "UNKNOWN_SEGMENT",
+        "NO_INVENTORY"
+      ],
+      "scoreability": {
+        "totalDays": 10,
+        "feasibilityCheckedDays": 10,
+        "unknownLocations": []
+      },
+      "sendable": false,
+      "costUsd": 0.15031375,
+      "latencyMs": 140583,
+      "llmCalls": 2
+    },
+    {
+      "caseId": "case-02-summer-hunza",
+      "system": "agent",
+      "hard": 0,
+      "soft": 0,
+      "byFamily": {
+        "grounding": 0,
+        "feasibility": 0,
+        "fidelity": 0,
+        "advisory": 0
+      },
+      "hardByFamily": {
+        "grounding": 0,
+        "feasibility": 0,
+        "fidelity": 0,
+        "advisory": 0
+      },
+      "codes": [],
+      "scoreability": {
+        "totalDays": 10,
+        "feasibilityCheckedDays": 10,
+        "unknownLocations": []
+      },
+      "sendable": true,
+      "costUsd": 0.12383249999999998,
+      "latencyMs": 143692,
+      "llmCalls": 2,
+      "repairAttempts": 0
+    },
+    {
+      "caseId": "case-02-summer-hunza",
+      "system": "agent-norepair",
+      "hard": 0,
+      "soft": 0,
+      "byFamily": {
+        "grounding": 0,
+        "feasibility": 0,
+        "fidelity": 0,
+        "advisory": 0
+      },
+      "hardByFamily": {
+        "grounding": 0,
+        "feasibility": 0,
+        "fidelity": 0,
+        "advisory": 0
+      },
+      "codes": [],
+      "scoreability": {
+        "totalDays": 10,
+        "feasibilityCheckedDays": 10,
+        "unknownLocations": []
+      },
+      "sendable": true,
+      "costUsd": 0.13506375,
+      "latencyMs": 174454,
+      "llmCalls": 2,
+      "repairAttempts": 0
+    },
+    {
+      "caseId": "case-03-tight-budget",
+      "system": "baseline",
+      "hard": 16,
+      "soft": 0,
+      "byFamily": {
+        "grounding": 14,
+        "feasibility": 2,
+        "fidelity": 0,
+        "advisory": 0
+      },
+      "hardByFamily": {
+        "grounding": 14,
+        "feasibility": 2,
+        "fidelity": 0,
+        "advisory": 0
+      },
+      "codes": [
+        "NO_INVENTORY",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT",
+        "NO_INVENTORY",
+        "NO_INVENTORY",
+        "UNKNOWN_SEGMENT",
+        "CLOSED",
+        "ALTITUDE_GAIN",
+        "NO_INVENTORY",
+        "UNKNOWN_SEGMENT",
+        "UNKNOWN_SEGMENT",
+        "NO_INVENTORY",
+        "UNKNOWN_LOCATION",
+        "UNKNOWN_SEGMENT"
+      ],
+      "scoreability": {
+        "totalDays": 6,
+        "feasibilityCheckedDays": 5,
+        "unknownLocations": [
+          "skardu_to_islamabad"
+        ]
+      },
+      "sendable": false,
+      "costUsd": 0.15162375,
+      "latencyMs": 302813,
+      "llmCalls": 2
+    },
+    {
+      "caseId": "case-03-tight-budget",
+      "system": "agent",
+      "hard": 0,
+      "soft": 0,
+      "byFamily": {
+        "grounding": 0,
+        "feasibility": 0,
+        "fidelity": 0,
+        "advisory": 0
+      },
+      "hardByFamily": {
+        "grounding": 0,
+        "feasibility": 0,
+        "fidelity": 0,
+        "advisory": 0
+      },
+      "codes": [],
+      "scoreability": {
+        "totalDays": 6,
+        "feasibilityCheckedDays": 6,
+        "unknownLocations": []
+      },
+      "sendable": true,
+      "costUsd": 0.07852875,
+      "latencyMs": 96198,
+      "llmCalls": 2,
+      "repairAttempts": 0
+    },
+    {
+      "caseId": "case-03-tight-budget",
+      "system": "agent-norepair",
+      "hard": 0,
+      "soft": 0,
+      "byFamily": {
+        "grounding": 0,
+        "feasibility": 0,
+        "fidelity": 0,
+        "advisory": 0
+      },
+      "hardByFamily": {
+        "grounding": 0,
+        "feasibility": 0,
+        "fidelity": 0,
+        "advisory": 0
+      },
+      "codes": [],
+      "scoreability": {
+        "totalDays": 6,
+        "feasibilityCheckedDays": 6,
+        "unknownLocations": []
+      },
+      "sendable": true,
+      "costUsd": 0.11052000000000001,
+      "latencyMs": 116053,
+      "llmCalls": 2,
+      "repairAttempts": 0
+    }
+  ]
+}

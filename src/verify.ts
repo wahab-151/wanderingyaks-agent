@@ -117,12 +117,18 @@ export function verify(input: VerifyInput, options: VerifyOptions = {}): Violati
     const isFinalDay = day.day === lastDayNumber;
     const date = canCheckDates ? addDays(brief.startDate as string, day.day - 1) : null;
 
-    // Location must exist. Every later check on this day depends on it, so
-    // when it fails we skip the rest rather than emit a cascade of noise.
+    // An unknown location suppresses only the checks that genuinely need to
+    // know where the day is spent - closure, altitude, permits. Hotels and
+    // road segments are still checked, because they are independent facts.
+    //
+    // Skipping the whole day here was the original behaviour and it hid real
+    // failures: an itinerary routing through a snowbound valley under a name
+    // the knowledge base did not recognise scored as a single grounding error
+    // and was never season-checked at all. Feasibility must not be silently
+    // waived just because the naming was wrong.
     const location = kb.location(day.location);
     if (!location) {
       add("UNKNOWN_LOCATION", day.day, `"${day.location}" is not a location in the knowledge base`, "hard");
-      continue;
     }
 
     // --- accommodation ---
@@ -145,7 +151,7 @@ export function verify(input: VerifyInput, options: VerifyOptions = {}): Violati
           "hard",
         );
       }
-      if (location.isDaytripOnly) {
+      if (location?.isDaytripOnly) {
         add("NO_INVENTORY", day.day, `${location.name} has no accommodation and cannot be a night stop`, "hard");
       }
     }
@@ -192,7 +198,7 @@ export function verify(input: VerifyInput, options: VerifyOptions = {}): Violati
     }
 
     // --- seasonal closure of the day's own location ---
-    if (date && kb.isOpen(day.location, date) === false) {
+    if (location && date && kb.isOpen(day.location, date) === false) {
       const season = kb.season(day.location);
       add(
         "CLOSED",
@@ -207,20 +213,27 @@ export function verify(input: VerifyInput, options: VerifyOptions = {}): Violati
     // to sleep is not a gain, which is why day trips are excluded here.
     const sleepsHere = day.hotelId !== null || !isFinalDay;
     if (sleepsHere) {
-      const elevation = location.elevationM;
-      if (
-        previousSleepElevation !== null &&
-        elevation > policy.altitudeRuleAboveM &&
-        elevation - previousSleepElevation > policy.maxSleepGainPerDayM
-      ) {
-        add(
-          "ALTITUDE_GAIN",
-          day.day,
-          `sleeping elevation rises ${elevation - previousSleepElevation}m to ${elevation}m at ${location.name}, over the ${policy.maxSleepGainPerDayM}m daily limit above ${policy.altitudeRuleAboveM}m`,
-          "hard",
-        );
+      if (!location) {
+        // Elevation unknown, so the chain is broken. Resetting rather than
+        // carrying the last known height forward avoids inventing a gain
+        // across the gap.
+        previousSleepElevation = null;
+      } else {
+        const elevation = location.elevationM;
+        if (
+          previousSleepElevation !== null &&
+          elevation > policy.altitudeRuleAboveM &&
+          elevation - previousSleepElevation > policy.maxSleepGainPerDayM
+        ) {
+          add(
+            "ALTITUDE_GAIN",
+            day.day,
+            `sleeping elevation rises ${elevation - previousSleepElevation}m to ${elevation}m at ${location.name}, over the ${policy.maxSleepGainPerDayM}m daily limit above ${policy.altitudeRuleAboveM}m`,
+            "hard",
+          );
+        }
+        previousSleepElevation = elevation;
       }
-      previousSleepElevation = elevation;
     }
 
     // --- permits ---

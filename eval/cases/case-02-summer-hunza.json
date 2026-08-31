@@ -1,0 +1,26 @@
+{
+  "id": "case-02-summer-hunza",
+  "provenance": "synthetic",
+  "difficulty": "easy",
+  "inquiry": "Hello, my wife and I are planning a trip to Hunza in July. We have about 10 days and we're mainly interested in the culture, the forts, and easy walks - nothing strenuous. We're in our late fifties. Budget is flexible, maybe $1800 each. We're from Germany.",
+  "today": "2026-04-01",
+  "brief": {
+    "groupSize": 2,
+    "nights": 9,
+    "startDate": "2026-07-10",
+    "endDate": "2026-07-19",
+    "budgetPpUsd": 1800,
+    "nationalities": ["DE"],
+    "interests": ["culture", "forts", "gentle walking"],
+    "fitness": "low",
+    "hasChildren": false,
+    "notes": "Older couple, explicitly wants nothing strenuous",
+    "missingFields": []
+  },
+  "notes": "Should be straightforward and is close to an existing catalog package, so the router ought to recommend rather than compose. Tests that an easy case does not get over-engineered.",
+  "groundTruth": {
+    "operatorItinerary": null,
+    "quotedTotalUsd": null,
+    "operatorMinutesSpent": null
+  }
+}

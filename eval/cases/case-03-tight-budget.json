@@ -1,0 +1,26 @@
+{
+  "id": "case-03-tight-budget",
+  "provenance": "synthetic",
+  "difficulty": "moderate",
+  "inquiry": "salam, me and 5 friends want to go skardu next month for 5 nights. we are students so budget is tight, maybe 300 dollars each max. we can share rooms. all pakistani. can you make something?",
+  "today": "2026-04-01",
+  "brief": {
+    "groupSize": 6,
+    "nights": 5,
+    "startDate": "2026-05-08",
+    "endDate": "2026-05-13",
+    "budgetPpUsd": 300,
+    "nationalities": ["PK"],
+    "interests": ["mountains"],
+    "fitness": "moderate",
+    "hasChildren": false,
+    "notes": "Students, room sharing acceptable, domestic travellers so no foreign permits",
+    "missingFields": []
+  },
+  "notes": "Tests budget pressure and the domestic-traveller permit path. A budget this tight may not be satisfiable at all, which the operator needs told rather than hidden behind an optimistic quote.",
+  "groundTruth": {
+    "operatorItinerary": null,
+    "quotedTotalUsd": null,
+    "operatorMinutesSpent": null
+  }
+}

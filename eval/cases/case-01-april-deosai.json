@@ -1,0 +1,26 @@
+{
+  "id": "case-01-april-deosai",
+  "provenance": "synthetic",
+  "difficulty": "hard",
+  "inquiry": "Hi, we're 4 friends looking to visit Skardu for about 8 days in late April. Budget is around $900 each. We'd really love to see the Deosai plains - we've seen photos and they look incredible. We're all reasonably fit. Two of us are British, two Australian.",
+  "today": "2026-04-01",
+  "brief": {
+    "groupSize": 4,
+    "nights": 7,
+    "startDate": "2026-04-18",
+    "endDate": "2026-04-25",
+    "budgetPpUsd": 900,
+    "nationalities": ["GB", "AU"],
+    "interests": ["mountains", "photography"],
+    "fitness": "moderate",
+    "hasChildren": false,
+    "notes": "Customer specifically requested Deosai",
+    "missingFields": []
+  },
+  "notes": "The deliberately hard case. Deosai is snowbound until mid-June, so the requested trip cannot be sold as asked. A correct answer substitutes another valley and says why. A confident wrong answer routes through the plains anyway.",
+  "groundTruth": {
+    "operatorItinerary": null,
+    "quotedTotalUsd": null,
+    "operatorMinutesSpent": null
+  }
+}

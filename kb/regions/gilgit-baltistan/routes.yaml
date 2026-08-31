@@ -131,3 +131,71 @@ routes:
     maxAltitudeM: 4694
     roadQuality: foot
     note: Multi-day trek in practice; hours here cover the approach only.
+  # Added 2026-08-30 alongside the new locations. Drive hours are estimates.
+  - id: khaplu>hushe
+    driveHours: 3.0
+    maxAltitudeM: 3050
+    roadQuality: jeep_track
+  - id: skardu>kharmang
+    driveHours: 2.5
+    maxAltitudeM: 2300
+    roadQuality: paved
+  - id: kharmang>manthokha
+    driveHours: 0.75
+    maxAltitudeM: 2200
+    roadQuality: jeep_track
+  - id: skardu>manthokha
+    driveHours: 3.0
+    maxAltitudeM: 2200
+    roadQuality: jeep_track
+  - id: skardu>sadpara
+    driveHours: 0.75
+    maxAltitudeM: 2600
+    roadQuality: paved
+  - id: skardu>basho
+    driveHours: 2.0
+    maxAltitudeM: 2800
+    roadQuality: jeep_track
+  - id: gulmit>borith
+    driveHours: 0.75
+    maxAltitudeM: 2600
+    roadQuality: jeep_track
+  - id: passu>borith
+    driveHours: 0.75
+    maxAltitudeM: 2600
+    roadQuality: jeep_track
+  - id: nagar>minapin
+    driveHours: 0.75
+    maxAltitudeM: 2000
+    roadQuality: paved
+  - id: karimabad>minapin
+    driveHours: 1.0
+    maxAltitudeM: 2000
+    roadQuality: paved
+  - id: minapin>rakaposhi_bc
+    driveHours: 1.5
+    maxAltitudeM: 3500
+    roadQuality: foot
+    note: Ascent on foot from Minapin. Commonly an overnight at base camp.
+  - id: karimabad>duikar
+    driveHours: 0.75
+    maxAltitudeM: 2900
+    roadQuality: paved
+  - id: karimabad>ganish
+    driveHours: 0.25
+    maxAltitudeM: 2400
+    roadQuality: paved
+  - id: islamabad>naran
+    driveHours: 7.0
+    maxAltitudeM: 2400
+    roadQuality: paved
+  - id: naran>babusar
+    driveHours: 2.5
+    maxAltitudeM: 4173
+    roadQuality: paved
+    note: Seasonal. Closed by snow outside the Babusar window.
+  - id: babusar>chilas
+    driveHours: 2.0
+    maxAltitudeM: 4173
+    roadQuality: paved
+

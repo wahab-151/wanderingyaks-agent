@@ -57,3 +57,23 @@ seasons:
   passu: { opens: "01-01", closes: "12-31" }
   sost: { opens: "01-01", closes: "12-31" }
   nagar: { opens: "01-01", closes: "12-31" }
+
+  # Added 2026-08-30. Windows are estimates pending operator sign-off.
+  hushe: { opens: "05-01", closes: "10-31" }
+  basho: { opens: "05-01", closes: "10-31" }
+  borith: { opens: "04-01", closes: "11-15" }
+  minapin: { opens: "01-01", closes: "12-31" }
+  duikar: { opens: "01-01", closes: "12-31" }
+  ganish: { opens: "01-01", closes: "12-31" }
+  kharmang: { opens: "01-01", closes: "12-31" }
+  manthokha: { opens: "03-15", closes: "11-15" }
+  sadpara: { opens: "01-01", closes: "12-31" }
+  naran:
+    opens: "05-01"
+    closes: "10-31"
+    note: Kaghan valley road; snowbound in winter.
+  babusar:
+    opens: "07-01"
+    closes: "09-30"
+    note: Pass opens late and closes early. Narrower window than Naran itself.
+

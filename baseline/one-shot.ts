@@ -41,7 +41,11 @@ export async function runBaseline(
     system: BASELINE_SYSTEM,
     user: rawInquiry,
     trajectory,
-    maxTokens: 4000,
+    // Generous on purpose. On a reasoning model this budget covers thinking as
+    // well as prose, and an itinerary is long: a cap sized for the visible
+    // answer alone gets consumed entirely by reasoning and returns nothing.
+    // The agent stages use the same default, so neither side is handicapped.
+    maxTokens: 16_000,
   });
 }
 

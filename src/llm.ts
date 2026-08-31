@@ -1,23 +1,22 @@
-import Anthropic from "@anthropic-ai/sdk";
-import { betaZodOutputFormat } from "@anthropic-ai/sdk/helpers/beta/zod";
+import OpenAI from "openai";
 import type { ZodType, infer as ZodInfer } from "zod";
+import { toStrictJsonSchema } from "./json-schema.js";
 import { Trajectory, estimateCostUsd, type TokenUsage } from "./trajectory.js";
 
 /**
  * The only file in the project that talks to a model.
  *
  * Every stage that needs the model goes through structured(), so trajectory
- * logging, cost accounting, prompt caching and schema validation are decided
- * once rather than repeated - and none of them can be forgotten in a new stage.
+ * logging, cost accounting, schema validation and retry policy are decided once
+ * rather than repeated - and none of them can be forgotten in a new stage.
  *
- * Structured output is enforced by the API through output_config, not by asking
- * for JSON in prose and hoping. A response that does not satisfy the schema
- * never reaches a caller: it is retried with the validation error fed back, and
- * every attempt is logged.
+ * That single seam is why swapping providers touched this file and the pricing
+ * table, and nothing else. The verifier, the knowledge base, the pricing and
+ * the eval harness never learn which model vendor is behind the pipeline.
  */
 
-export const DEFAULT_MODEL = "claude-opus-5";
-export const MAX_TOKENS = 16_000;
+export const DEFAULT_MODEL = "gpt-5";
+export const MAX_OUTPUT_TOKENS = 16_000;
 
 export class LlmError extends Error {
   constructor(
@@ -30,20 +29,19 @@ export class LlmError extends Error {
   }
 }
 
-let client: Anthropic | null = null;
+let client: OpenAI | null = null;
 
-function getClient(): Anthropic {
+function getClient(): OpenAI {
   if (client) return client;
-  if (!process.env.ANTHROPIC_API_KEY && !process.env.ANTHROPIC_AUTH_TOKEN) {
+  if (!process.env.OPENAI_API_KEY) {
     throw new LlmError(
-      "No Anthropic credentials found. Set ANTHROPIC_API_KEY in .env (copy .env.example), " +
-        "or run `ant auth login`. The knowledge base and verifier run without a key; " +
-        "only the model stages need one.",
+      "No OpenAI credentials found. Set OPENAI_API_KEY in .env (copy .env.example). " +
+        "The knowledge base and verifier run without a key; only the model stages need one.",
       "init",
       0,
     );
   }
-  client = new Anthropic();
+  client = new OpenAI();
   return client;
 }
 
@@ -56,6 +54,8 @@ export interface StructuredOptions<T extends ZodType> {
   stage: string;
   /** Contract the response must satisfy. Enforced by the API and re-checked here. */
   schema: T;
+  /** Name for the schema in the API request. Lowercase with underscores. */
+  schemaName?: string;
   /** Stable instructions. Identical across cases, so this is the cached prefix. */
   system: string;
   /** Case-specific input. Never put stable text here or the cache never hits. */
@@ -63,32 +63,40 @@ export interface StructuredOptions<T extends ZodType> {
   trajectory: Trajectory;
   /** Attempts allowed if the model returns something the schema rejects. */
   maxAttempts?: number;
-  /** Omitted means the model default. SDK 0.71 accepts low/medium/high only. */
-  effort?: "low" | "medium" | "high";
+  /** Reasoning depth. Omitted means the model default. */
+  effort?: "minimal" | "low" | "medium" | "high";
 }
 
-function readUsage(usage: {
+type OpenAIUsage = {
   input_tokens?: number | null;
   output_tokens?: number | null;
-  cache_read_input_tokens?: number | null;
-  cache_creation_input_tokens?: number | null;
-}): TokenUsage {
+  input_tokens_details?: { cached_tokens?: number | null; cache_write_tokens?: number | null } | null;
+  output_tokens_details?: { reasoning_tokens?: number | null } | null;
+} | null | undefined;
+
+function readUsage(usage: OpenAIUsage): TokenUsage {
+  const cached = usage?.input_tokens_details?.cached_tokens ?? 0;
+  const written = usage?.input_tokens_details?.cache_write_tokens ?? 0;
+  // input_tokens is the total including cached; the pricing table bills the
+  // cached portion separately, so it must not be counted twice.
+  const total = usage?.input_tokens ?? 0;
   return {
-    inputTokens: usage.input_tokens ?? 0,
-    outputTokens: usage.output_tokens ?? 0,
-    cacheReadTokens: usage.cache_read_input_tokens ?? 0,
-    cacheWriteTokens: usage.cache_creation_input_tokens ?? 0,
+    inputTokens: Math.max(0, total - cached),
+    outputTokens: usage?.output_tokens ?? 0,
+    cacheReadTokens: cached,
+    cacheWriteTokens: written,
+    reasoningTokens: usage?.output_tokens_details?.reasoning_tokens ?? 0,
   };
 }
 
 /**
  * One model call returning a value that satisfies `schema`.
  *
- * The system prompt is sent as a cached block. Across an evaluation run the
- * instructions are byte-identical from case to case while only the user turn
- * changes, so the prefix should be served from cache after the first call.
- * Whether it actually is shows up as cacheReadTokens in the trajectory - if
- * that stays at zero, something in the "stable" half is not stable.
+ * Instructions are sent separately from the user turn and are byte-identical
+ * across cases, which is what lets OpenAI's automatic prefix caching apply.
+ * Whether it actually applies shows up as cacheReadTokens in the trajectory -
+ * if that stays at zero across an eval run, something in the "stable" half is
+ * not stable.
  */
 export async function structured<T extends ZodType>(
   opts: StructuredOptions<T>,
@@ -96,8 +104,9 @@ export async function structured<T extends ZodType>(
   const { stage, schema, system, user, trajectory } = opts;
   const maxAttempts = opts.maxAttempts ?? 2;
   const model = currentModel();
-  const anthropic = getClient();
+  const openai = getClient();
   const systemHash = trajectory.prompt(stage, system);
+  const format = toStrictJsonSchema(schema, opts.schemaName ?? stage.replace(/-/g, "_"));
 
   let correction = "";
 
@@ -106,40 +115,46 @@ export async function structured<T extends ZodType>(
     const userContent = correction ? `${user}\n\n${correction}` : user;
 
     try {
-      const response = await anthropic.beta.messages.parse({
+      const response = await openai.responses.create({
         model,
-        max_tokens: MAX_TOKENS,
-        system: [{ type: "text", text: system, cache_control: { type: "ephemeral" } }],
-        messages: [{ role: "user", content: userContent }],
-        output_format: betaZodOutputFormat(schema),
-        ...(opts.effort ? { output_config: { effort: opts.effort } } : {}),
+        instructions: system,
+        input: userContent,
+        max_output_tokens: MAX_OUTPUT_TOKENS,
+        text: {
+          format: {
+            type: "json_schema",
+            name: format.name,
+            strict: true,
+            schema: format.schema,
+          },
+        },
+        ...(opts.effort ? { reasoning: { effort: opts.effort } } : {}),
       });
 
       const latencyMs = Date.now() - startedAt;
       const usage = readUsage(response.usage);
       const costUsd = estimateCostUsd(model, usage);
 
-      // A safety decline arrives as a normal 200 with no usable content, so
-      // stop_reason has to be checked before the payload is read.
-      if (response.stop_reason === "refusal") {
-        trajectory.llmError(stage, attempt, "model declined the request", latencyMs);
-        throw new LlmError(`model declined the ${stage} request`, stage, attempt);
+      // A truncated response is well-formed JSON right up to where it stops,
+      // so this has to be checked before the payload is parsed.
+      if (response.status === "incomplete") {
+        const reason = response.incomplete_details?.reason ?? "unknown";
+        trajectory.llmError(stage, attempt, `incomplete response: ${reason}`, latencyMs);
+        throw new LlmError(`${stage} response was cut off (${reason})`, stage, attempt);
       }
 
-      const parsed = response.parsed_output;
-      if (parsed == null) {
-        // The API constrains the format, so this is rare - but a null here
-        // silently becoming an empty object downstream would be much worse.
-        trajectory.llmError(stage, attempt, "response did not parse against the schema", latencyMs);
-        correction =
-          "Your previous response did not match the required output format. " +
-          "Return only a value satisfying the schema.";
+      let parsed: unknown;
+      try {
+        parsed = JSON.parse(response.output_text);
+      } catch {
+        trajectory.llmError(stage, attempt, "response was not valid JSON", latencyMs);
+        correction = "Your previous response was not valid JSON. Return only the JSON value.";
         continue;
       }
 
-      // The API-side constraint and this check are deliberately redundant.
-      // Refinements the JSON Schema cannot express - a date pattern, a
-      // positive integer - are only caught here.
+      // The API guarantees shape; this is where meaning is enforced. Date
+      // patterns, positive integers and non-empty day lists are all stripped
+      // from the schema the API sees, so they are only checked here.
       const validated = schema.safeParse(parsed);
       if (!validated.success) {
         const detail = validated.error.issues
@@ -159,7 +174,7 @@ export async function structured<T extends ZodType>(
         usage,
         costUsd,
         latencyMs,
-        stopReason: response.stop_reason ?? null,
+        stopReason: response.status ?? null,
       });
 
       return validated.data as ZodInfer<T>;
@@ -168,18 +183,29 @@ export async function structured<T extends ZodType>(
 
       const latencyMs = Date.now() - startedAt;
 
-      // The SDK already retries 429s, 5xx and connection failures on its own,
-      // so anything arriving here has exhausted that. Report it accurately
-      // rather than retrying a request that will fail the same way.
-      if (err instanceof Anthropic.AuthenticationError) {
+      // The SDK retries 429s, 5xx and connection failures on its own, so
+      // anything arriving here has exhausted that. Report it accurately rather
+      // than retrying a request that will fail the same way.
+      if (err instanceof OpenAI.AuthenticationError) {
         trajectory.llmError(stage, attempt, "authentication failed", latencyMs);
-        throw new LlmError("Anthropic rejected the credentials", stage, attempt);
+        throw new LlmError("OpenAI rejected the credentials", stage, attempt);
       }
-      if (err instanceof Anthropic.RateLimitError) {
+      if (err instanceof OpenAI.RateLimitError) {
         trajectory.llmError(stage, attempt, "rate limited after SDK retries", latencyMs);
         throw new LlmError(`rate limited during ${stage}`, stage, attempt);
       }
-      if (err instanceof Anthropic.APIError) {
+      if (err instanceof OpenAI.BadRequestError) {
+        // Most often a schema strict mode would not accept. Say so, because
+        // the raw message is rarely enough to find the offending field.
+        trajectory.llmError(stage, attempt, `bad request: ${err.message}`, latencyMs);
+        throw new LlmError(
+          `OpenAI rejected the ${stage} request: ${err.message}. ` +
+            `If this names a schema keyword, add it to STRIPPED in src/json-schema.ts.`,
+          stage,
+          attempt,
+        );
+      }
+      if (err instanceof OpenAI.APIError) {
         trajectory.llmError(stage, attempt, `api error ${err.status}: ${err.message}`, latencyMs);
         throw new LlmError(`API error ${err.status} during ${stage}: ${err.message}`, stage, attempt);
       }
@@ -208,36 +234,47 @@ export async function text(opts: {
   maxTokens?: number;
 }): Promise<string> {
   const model = currentModel();
-  const anthropic = getClient();
+  const openai = getClient();
   const system = opts.system ?? "";
   const systemHash = opts.trajectory.prompt(opts.stage, system);
   const startedAt = Date.now();
 
-  const response = await anthropic.messages.create({
+  const response = await openai.responses.create({
     model,
-    max_tokens: opts.maxTokens ?? MAX_TOKENS,
-    ...(system ? { system } : {}),
-    messages: [{ role: "user", content: opts.user }],
+    ...(system ? { instructions: system } : {}),
+    input: opts.user,
+    max_output_tokens: opts.maxTokens ?? MAX_OUTPUT_TOKENS,
   });
 
   const latencyMs = Date.now() - startedAt;
   const usage = readUsage(response.usage);
-  const out = response.content
-    .filter((b): b is Anthropic.TextBlock => b.type === "text")
-    .map((b) => b.text)
-    .join("\n");
 
   opts.trajectory.llmCall({
     stage: opts.stage,
     attempt: 1,
     systemHash,
     input: opts.user,
-    output: out,
+    output: response.output_text,
     usage,
     costUsd: estimateCostUsd(model, usage),
     latencyMs,
-    stopReason: response.stop_reason ?? null,
+    stopReason: response.status ?? null,
   });
 
-  return out;
+  // Same check as structured(). On a reasoning model max_output_tokens covers
+  // reasoning *and* visible output, so a budget that looks generous can be
+  // spent entirely on thinking - the call then succeeds, bills in full, and
+  // returns an empty string. Failing loudly is the only way that is visible.
+  if (response.status === "incomplete") {
+    const reason = response.incomplete_details?.reason ?? "unknown";
+    const spentOnReasoning = usage.reasoningTokens > 0 ? `, ${usage.reasoningTokens} of them on reasoning` : "";
+    throw new LlmError(
+      `${opts.stage} response was cut off (${reason}) after ${usage.outputTokens} output tokens${spentOnReasoning}. ` +
+        `Raise maxTokens.`,
+      opts.stage,
+      1,
+    );
+  }
+
+  return response.output_text;
 }
