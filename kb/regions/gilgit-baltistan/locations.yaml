@@ -81,3 +81,44 @@ locations:
   - id: rush_lake
     name: Rush Lake
     elevationM: 4694
+  # Added 2026-08-30 after evaluation runs showed the baseline repeatedly naming
+  # these as real destinations while the knowledge base did not contain them.
+  # Every elevation here is an estimate pending operator sign-off.
+  - id: hushe
+    name: Hushe
+    elevationM: 3050
+  - id: kharmang
+    name: Kharmang
+    elevationM: 2300
+  - id: manthokha
+    name: Manthokha Waterfall
+    elevationM: 2200
+    isDaytripOnly: true
+  - id: sadpara
+    name: Sadpara Lake
+    elevationM: 2600
+    isDaytripOnly: true
+  - id: basho
+    name: Basho Valley
+    elevationM: 2800
+  - id: borith
+    name: Borith Lake
+    elevationM: 2600
+  - id: minapin
+    name: Minapin
+    elevationM: 2000
+  - id: duikar
+    name: Duikar (Eagle's Nest)
+    elevationM: 2900
+  - id: ganish
+    name: Ganish Village
+    elevationM: 2400
+    isDaytripOnly: true
+  - id: naran
+    name: Naran
+    elevationM: 2400
+  - id: babusar
+    name: Babusar Pass
+    elevationM: 4173
+    isDaytripOnly: true
+

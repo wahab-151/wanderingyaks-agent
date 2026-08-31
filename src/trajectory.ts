@@ -20,10 +20,14 @@ const TRAJECTORY_DIR = join(here, "..", "trajectories");
  */
 
 export type TokenUsage = {
+  /** Fresh input only. Cached tokens are counted separately, never in both. */
   inputTokens: number;
+  /** Includes reasoning tokens, which is how the provider bills them. */
   outputTokens: number;
   cacheReadTokens: number;
   cacheWriteTokens: number;
+  /** Reported for visibility. Already inside outputTokens; never billed twice. */
+  reasoningTokens: number;
 };
 
 export type TrajectoryEntry =
@@ -57,30 +61,39 @@ export type TrajectoryEntry =
     };
 
 /**
- * Per-million-token rates, from the Anthropic pricing table cached 2026-06-24.
- * Used to report cost per itinerary, which is one of the evaluation metrics.
- * Re-check against current pricing before quoting a figure in the README.
+ * Per-million-token rates in USD, used to report cost per itinerary - one of
+ * the evaluation metrics, so the figure ends up in the README.
+ *
+ * VERIFY BEFORE PUBLISHING A COST FIGURE. These are believed correct but were
+ * not read from the live pricing page. Check platform.openai.com/pricing and
+ * correct this table before any number here is quoted as evidence.
+ *
+ * `cachedInput` is the discounted rate for a cache hit. OpenAI's automatic
+ * prefix caching charges nothing extra to write, unlike some providers, so
+ * cache writes bill at the normal input rate.
  */
-const RATES: Record<string, { input: number; output: number }> = {
-  "claude-opus-5": { input: 5, output: 25 },
-  "claude-opus-4-8": { input: 5, output: 25 },
-  "claude-sonnet-5": { input: 2, output: 10 },
-  "claude-sonnet-4-6": { input: 3, output: 15 },
-  "claude-haiku-4-5": { input: 1, output: 5 },
+const RATES: Record<string, { input: number; cachedInput: number; output: number }> = {
+  "gpt-5": { input: 1.25, cachedInput: 0.125, output: 10 },
+  "gpt-5-mini": { input: 0.25, cachedInput: 0.025, output: 2 },
+  "gpt-5-nano": { input: 0.05, cachedInput: 0.005, output: 0.4 },
+  "gpt-4.1": { input: 2, cachedInput: 0.5, output: 8 },
+  "gpt-4.1-mini": { input: 0.4, cachedInput: 0.1, output: 1.6 },
+  "gpt-4o": { input: 2.5, cachedInput: 1.25, output: 10 },
+  "gpt-4o-mini": { input: 0.15, cachedInput: 0.075, output: 0.6 },
 };
 
 /**
- * Cache reads bill at roughly a tenth of the input rate and cache writes at
- * roughly 1.25x. Both are approximations of the published multipliers and are
- * good enough for a per-run cost estimate, not for billing.
+ * Reasoning tokens are already inside outputTokens and are billed at the output
+ * rate, so they are deliberately not added again here.
  */
 export function estimateCostUsd(model: string, usage: TokenUsage): number {
-  const rate = RATES[model];
+  // Dated snapshots such as "gpt-5-2026-01-15" bill as the base model.
+  const rate = RATES[model] ?? RATES[model.replace(/-\d{4}-\d{2}-\d{2}$/, "")];
   if (!rate) return 0; // unknown model: report zero rather than a wrong number
   const inputUsd =
     (usage.inputTokens * rate.input +
-      usage.cacheReadTokens * rate.input * 0.1 +
-      usage.cacheWriteTokens * rate.input * 1.25) /
+      usage.cacheReadTokens * rate.cachedInput +
+      usage.cacheWriteTokens * rate.input) /
     1_000_000;
   const outputUsd = (usage.outputTokens * rate.output) / 1_000_000;
   return inputUsd + outputUsd;

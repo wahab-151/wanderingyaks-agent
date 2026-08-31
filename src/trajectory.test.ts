@@ -25,35 +25,49 @@ const usage = (over: Partial<Parameters<typeof estimateCostUsd>[1]> = {}) => ({
   outputTokens: 0,
   cacheReadTokens: 0,
   cacheWriteTokens: 0,
+  reasoningTokens: 0,
   ...over,
 });
 
 describe("cost estimation", () => {
   it("prices input and output at the model rate", () => {
-    // Opus 5 is $5/$25 per million.
-    const cost = estimateCostUsd("claude-opus-5", usage({ inputTokens: 10_000, outputTokens: 5_000 }));
-    expect(cost).toBeCloseTo(0.05 + 0.125, 6);
+    // gpt-5 is $1.25 in / $10 out per million.
+    const cost = estimateCostUsd("gpt-5", usage({ inputTokens: 10_000, outputTokens: 5_000 }));
+    expect(cost).toBeCloseTo(0.0125 + 0.05, 6);
   });
 
   it("prices cache reads far below fresh input", () => {
-    const fresh = estimateCostUsd("claude-opus-5", usage({ inputTokens: 10_000 }));
-    const cached = estimateCostUsd("claude-opus-5", usage({ cacheReadTokens: 10_000 }));
+    const fresh = estimateCostUsd("gpt-5", usage({ inputTokens: 10_000 }));
+    const cached = estimateCostUsd("gpt-5", usage({ cacheReadTokens: 10_000 }));
     expect(cached).toBeCloseTo(fresh * 0.1, 6);
   });
 
-  it("prices cache writes above fresh input", () => {
-    const fresh = estimateCostUsd("claude-opus-5", usage({ inputTokens: 10_000 }));
-    const written = estimateCostUsd("claude-opus-5", usage({ cacheWriteTokens: 10_000 }));
-    expect(written).toBeCloseTo(fresh * 1.25, 6);
+  it("charges no surcharge to write the cache", () => {
+    // Unlike some providers, OpenAI's automatic caching has no write premium.
+    const fresh = estimateCostUsd("gpt-5", usage({ inputTokens: 10_000 }));
+    const written = estimateCostUsd("gpt-5", usage({ cacheWriteTokens: 10_000 }));
+    expect(written).toBeCloseTo(fresh, 6);
+  });
+
+  it("does not bill reasoning tokens twice", () => {
+    // Reasoning tokens are already inside outputTokens.
+    const without = estimateCostUsd("gpt-5", usage({ outputTokens: 5_000 }));
+    const with_ = estimateCostUsd("gpt-5", usage({ outputTokens: 5_000, reasoningTokens: 4_000 }));
+    expect(with_).toBe(without);
+  });
+
+  it("bills a dated snapshot at its base model rate", () => {
+    const u = usage({ inputTokens: 10_000, outputTokens: 5_000 });
+    expect(estimateCostUsd("gpt-5-2026-01-15", u)).toBe(estimateCostUsd("gpt-5", u));
   });
 
   it("reports zero for a model it has no rate for, rather than a wrong number", () => {
     expect(estimateCostUsd("some-future-model", usage({ inputTokens: 1_000_000 }))).toBe(0);
   });
 
-  it("charges Sonnet 5 less than Opus 5 for identical usage", () => {
+  it("charges gpt-5-mini less than gpt-5 for identical usage", () => {
     const u = usage({ inputTokens: 10_000, outputTokens: 5_000 });
-    expect(estimateCostUsd("claude-sonnet-5", u)).toBeLessThan(estimateCostUsd("claude-opus-5", u));
+    expect(estimateCostUsd("gpt-5-mini", u)).toBeLessThan(estimateCostUsd("gpt-5", u));
   });
 });
 
@@ -71,7 +85,7 @@ describe("run ids and hashing", () => {
 describe("trajectory log", () => {
   it("writes one JSON object per line", () => {
     const t = new Trajectory("run_test_a", dir);
-    t.start("wanderingyaks", "claude-opus-5", { caseId: "case-01" });
+    t.start("wanderingyaks", "gpt-5", { caseId: "case-01" });
     t.step("verify", "3 hard violations");
     t.end("blocked");
 

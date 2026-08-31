@@ -118,6 +118,69 @@ hotels:
     ratePerRoomUsd: 40
     maxOccupancy: 2
 
+  # Added 2026-08-30 to give the new locations somewhere to sleep. Rates are
+  # placeholders on the same footing as everything else in this file.
+  - id: hushe_guesthouse
+    name: Hushe guesthouse
+    location: hushe
+    tier: basic
+    ratePerRoomUsd: 25
+    maxOccupancy: 2
+  - id: minapin_guesthouse
+    name: Minapin guesthouse
+    location: minapin
+    tier: standard
+    ratePerRoomUsd: 38
+    maxOccupancy: 2
+  - id: duikar_eagles_nest
+    name: Eagle's Nest Hotel, Duikar
+    location: duikar
+    tier: standard
+    ratePerRoomUsd: 65
+    maxOccupancy: 2
+  - id: borith_lake_inn
+    name: Borith Lake Inn
+    location: borith
+    tier: standard
+    ratePerRoomUsd: 42
+    maxOccupancy: 2
+  - id: basho_camp
+    name: Basho Valley camp
+    location: basho
+    tier: basic
+    ratePerRoomUsd: 28
+    maxOccupancy: 2
+  - id: kharmang_guesthouse
+    name: Kharmang guesthouse
+    location: kharmang
+    tier: budget
+    ratePerRoomUsd: 30
+    maxOccupancy: 2
+  - id: naran_hotel
+    name: Naran hotel
+    location: naran
+    tier: standard
+    ratePerRoomUsd: 48
+    maxOccupancy: 2
+  - id: nagar_guesthouse
+    name: Nagar Valley guesthouse
+    location: nagar
+    tier: standard
+    ratePerRoomUsd: 40
+    maxOccupancy: 2
+  - id: astore_guesthouse
+    name: Astore guesthouse
+    location: astore
+    tier: budget
+    ratePerRoomUsd: 32
+    maxOccupancy: 2
+  - id: rakaposhi_bc_camp
+    name: Rakaposhi Base Camp tented camp
+    location: rakaposhi_bc
+    tier: basic
+    ratePerRoomUsd: 30
+    maxOccupancy: 2
+
 transport:
   - id: jeep
     name: 4x4 jeep

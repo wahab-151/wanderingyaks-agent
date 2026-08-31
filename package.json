@@ -11,11 +11,14 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "kb:check": "tsx src/kb-check.ts",
-    "baseline": "tsx src/run-baseline.ts"
+    "baseline": "tsx src/run-baseline.ts",
+    "eval": "tsx eval/run-eval.ts",
+    "agent": "tsx src/run-agent.ts",
+    "review": "tsx src/run-review.ts"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.71.0",
     "dotenv": "^17.4.2",
+    "openai": "^7.8.0",
     "yaml": "^2.8.1",
     "zod": "^4.4.3"
   },
