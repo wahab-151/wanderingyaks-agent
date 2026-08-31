@@ -107,7 +107,7 @@ const RUNNERS: Record<SystemName, (c: EvalCase, kb: ReturnType<typeof loadKb>) =
 };
 
 async function main(): Promise<void> {
-  const tenantId = process.env.TENANT_ID ?? "wanderingyaks";
+  const tenantId = flagList("tenant")[0] ?? process.env.TENANT_ID ?? "wanderingyaks";
   const kb = loadKb(tenantId);
   const cases = loadCases(flagList("case"));
 

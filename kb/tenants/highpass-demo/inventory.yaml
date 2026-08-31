@@ -1,0 +1,155 @@
+# Inventory for the fictional second operator.
+#
+# Deliberately a different business: campsites and guesthouses rather than forts
+# and resorts, own jeeps rather than hired coasters, trek staff on the books.
+# Cheaper per night and the trips it can build are shaped differently as a
+# result - which is the point of holding this at the tenant layer rather than
+# the region layer.
+#
+# Every rate is fabricated, for a company that does not exist.
+meta:
+  tenant: highpass-demo
+  ratesVerified: false
+  currency: USD
+
+hotels:
+  - id: hp_skardu_base
+    name: High Pass base house, Skardu
+    location: skardu
+    tier: budget
+    ratePerRoomUsd: 22
+    maxOccupancy: 3
+  - id: hp_shigar_camp
+    name: Shigar orchard camp
+    location: shigar
+    tier: basic
+    ratePerRoomUsd: 15
+    maxOccupancy: 2
+  - id: hp_khaplu_lodge
+    name: Khaplu trekkers lodge
+    location: khaplu
+    tier: budget
+    ratePerRoomUsd: 20
+    maxOccupancy: 3
+  - id: hp_hushe_camp
+    name: Hushe village camp
+    location: hushe
+    tier: basic
+    ratePerRoomUsd: 12
+    maxOccupancy: 2
+  - id: hp_deosai_camp
+    name: Deosai high camp
+    location: deosai
+    tier: basic
+    ratePerRoomUsd: 18
+    maxOccupancy: 2
+  - id: hp_astore_lodge
+    name: Astore lodge
+    location: astore
+    tier: budget
+    ratePerRoomUsd: 18
+    maxOccupancy: 3
+  - id: hp_minapin_camp
+    name: Minapin trailhead camp
+    location: minapin
+    tier: basic
+    ratePerRoomUsd: 14
+    maxOccupancy: 2
+  - id: hp_rakaposhi_camp
+    name: Rakaposhi Base Camp
+    location: rakaposhi_bc
+    tier: basic
+    ratePerRoomUsd: 20
+    maxOccupancy: 2
+  - id: hp_karimabad_house
+    name: Karimabad trekkers house
+    location: karimabad
+    tier: budget
+    ratePerRoomUsd: 24
+    maxOccupancy: 3
+  - id: hp_passu_camp
+    name: Passu glacier camp
+    location: passu
+    tier: basic
+    ratePerRoomUsd: 16
+    maxOccupancy: 2
+  - id: hp_shimshal_house
+    name: Shimshal homestay
+    location: shimshal
+    tier: basic
+    ratePerRoomUsd: 14
+    maxOccupancy: 2
+  - id: hp_basho_camp
+    name: Basho forest camp
+    location: basho
+    tier: basic
+    ratePerRoomUsd: 15
+    maxOccupancy: 2
+  - id: hp_gilgit_transit
+    name: Gilgit transit house
+    location: gilgit
+    tier: budget
+    ratePerRoomUsd: 20
+    maxOccupancy: 3
+  - id: hp_chilas_transit
+    name: Chilas transit house
+    location: chilas
+    tier: budget
+    ratePerRoomUsd: 18
+    maxOccupancy: 3
+  - id: hp_islamabad_hostel
+    name: Islamabad crew house
+    location: islamabad
+    tier: budget
+    ratePerRoomUsd: 25
+    maxOccupancy: 3
+  - id: hp_fairy_meadows_huts
+    name: Fairy Meadows huts
+    location: fairy_meadows
+    tier: basic
+    ratePerRoomUsd: 20
+    maxOccupancy: 2
+
+transport:
+  - id: jeep
+    name: Own 4x4 jeep
+    ratePerDayUsd: 60
+    maxPax: 5
+    requiredFor: [jeep_track]
+  - id: hiace
+    name: Hiace van
+    ratePerDayUsd: 95
+    maxPax: 12
+    requiredFor: []
+
+staff:
+  - id: guide
+    name: Trekking guide
+    ratePerDayUsd: 35
+    perGroup: true
+  - id: porter
+    name: Porter
+    ratePerDayUsd: 18
+    perGroup: false
+  - id: cook
+    name: Camp cook
+    ratePerDayUsd: 25
+    perGroup: true
+
+extras:
+  - id: permit_deosai
+    name: Deosai National Park entry
+    unitUsd: 8
+    per: person
+  - id: permit_khunjerab
+    name: Khunjerab National Park entry
+    unitUsd: 20
+    per: person
+  - id: permit_shimshal
+    name: Shimshal valley permit
+    unitUsd: 15
+    per: person
+  - id: permit_rush_lake
+    name: Rush Lake trekking permit
+    unitUsd: 30
+    per: person

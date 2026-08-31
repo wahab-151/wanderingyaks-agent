@@ -106,8 +106,25 @@ cannot be booked, because the composer never sees it.**
 
 **The knowledge base is split into region and tenant layers.** When Deosai opens
 is a fact about Pakistan; which hotel you have a contract with is a fact about
-your company. `kb/regions/` holds the first, `kb/tenants/` the second. Two
-operators in the same valleys share the geography and bring their own inventory.
+your company. `kb/regions/` holds the first, `kb/tenants/` the second.
+
+This is demonstrated rather than asserted. `kb/tenants/highpass-demo/` is a
+fictional second operator working the same valleys:
+
+```bash
+npm run kb:check highpass-demo
+npm run agent -- --tenant highpass-demo
+```
+
+It shares all 32 locations, all 43 road segments, the same season windows and
+the same permit rules - because those are facts about Pakistan, not about either
+company. It brings its own 16 properties, its own rates, its own catalogue, and
+a 9-hour daily driving limit against the first tenant's 6. `src/multi-tenant.test.ts`
+asserts both halves: that the region layer is identical and that neither
+operator can book the other's rooms. A 7-hour drive is a violation for one and
+acceptable for the other, from the same road in the same knowledge base.
+
+Adding it required no code change.
 
 **Some verifier rules are withheld from the repair loop.** `verify()` is both
 the repair loop's oracle and the evaluation's scorer, so "the agent loops until
@@ -154,7 +171,7 @@ Requires Node 20+ and an OpenAI API key.
 npm install
 cp .env.example .env          # add OPENAI_API_KEY
 npm run kb:check              # no key needed - reads the knowledge base
-npm test                      # no key needed - 106 assertions
+npm test                      # no key needed - 121 assertions
 npm run agent                 # one inquiry, end to end
 npm run eval                  # baseline vs agent, writes eval/results/
 npm run review                # what is waiting for an operator
@@ -196,11 +213,13 @@ files are unverified on every run, and a test asserts the list is non-empty so
 placeholders cannot ship pretending to be real. What is needed is enumerated in
 [docs/KB-SOURCES.md](docs/KB-SOURCES.md).
 
-**Evaluation cases are synthetic.** Three of them, all marked
-`"provenance": "synthetic"`. Real inquiry/itinerary pairs exist in WhatsApp
-threads and sent PDFs but have not been extracted and anonymised. Until they
-are, price accuracy against a real quote and minutes saved against a real
-operator cannot be reported, and the harness prints that warning itself.
+**Evaluation cases are synthetic.** Eleven of them, all marked
+`"provenance": "synthetic"`, covering winter closures, permit traps, altitude
+traps, a family with children, a 14-person group, a near-empty enquiry and a
+partially-closed route. Real inquiry/itinerary pairs exist in WhatsApp threads
+and sent PDFs but have not been extracted and anonymised. Until they are, price
+accuracy against a real quote and minutes saved against a real operator cannot
+be reported, and the harness prints that warning itself.
 
 **Runs are not deterministic.** Reasoning models do not accept a temperature, so
 repeated runs vary. Differences smaller than that variance are not results.

@@ -36,7 +36,7 @@ for (let i = 0; i < args.length; i++) {
 const inquiry = positional.join(" ") || DEFAULT_INQUIRY;
 
 async function main(): Promise<void> {
-  const tenantId = process.env.TENANT_ID ?? "wanderingyaks";
+  const tenantId = flag("tenant", process.env.TENANT_ID ?? "wanderingyaks");
   const kb = loadKb(tenantId);
   const today = flag("today", new Date().toISOString().slice(0, 10));
   const maxRepairAttempts = Number(flag("repair", "3"));

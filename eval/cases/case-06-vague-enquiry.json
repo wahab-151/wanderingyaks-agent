@@ -1,0 +1,32 @@
+{
+  "id": "case-06-vague-enquiry",
+  "provenance": "synthetic",
+  "difficulty": "hard",
+  "inquiry": "hi, interested in a trip to the north. what do you have?",
+  "today": "2026-05-01",
+  "brief": {
+    "groupSize": 2,
+    "nights": 7,
+    "startDate": null,
+    "endDate": null,
+    "budgetPpUsd": null,
+    "nationalities": [],
+    "interests": [],
+    "fitness": "low",
+    "hasChildren": false,
+    "notes": "Almost nothing stated; placeholders used for group size and length",
+    "missingFields": [
+      "groupSize",
+      "nights",
+      "startDate",
+      "budgetPpUsd",
+      "nationalities"
+    ]
+  },
+  "notes": "Almost no information. The correct behaviour is to record what is missing rather than invent it, and the itinerary that results should be visibly provisional. Tests that intake refuses to guess.",
+  "groundTruth": {
+    "operatorItinerary": null,
+    "quotedTotalUsd": null,
+    "operatorMinutesSpent": null
+  }
+}

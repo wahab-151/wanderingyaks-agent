@@ -1,0 +1,31 @@
+{
+  "id": "case-04-winter-enquiry",
+  "provenance": "synthetic",
+  "difficulty": "hard",
+  "inquiry": "Hi there. My partner and I are thinking about Pakistan in February - we both have leave then. We'd like to see the mountains, Hunza if possible. Around 8 days. We're not trekkers. Budget maybe 1200 USD each. We're Dutch.",
+  "today": "2026-01-05",
+  "brief": {
+    "groupSize": 2,
+    "nights": 7,
+    "startDate": "2026-02-14",
+    "endDate": "2026-02-21",
+    "budgetPpUsd": 1200,
+    "nationalities": [
+      "NL"
+    ],
+    "interests": [
+      "mountains",
+      "hunza"
+    ],
+    "fitness": "low",
+    "hasChildren": false,
+    "notes": "Winter enquiry; most high valleys are shut",
+    "missingFields": []
+  },
+  "notes": "Winter. Most of the high country is closed and the honest answer is a much narrower trip than they imagined, or different dates. Tests whether the system says so instead of quietly producing something that cannot run.",
+  "groundTruth": {
+    "operatorItinerary": null,
+    "quotedTotalUsd": null,
+    "operatorMinutesSpent": null
+  }
+}
