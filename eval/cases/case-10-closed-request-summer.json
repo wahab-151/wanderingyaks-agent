@@ -1,0 +1,32 @@
+{
+  "id": "case-10-closed-request-summer",
+  "provenance": "synthetic",
+  "difficulty": "moderate",
+  "inquiry": "We're keen to drive the Babusar Pass and then carry on to Fairy Meadows. Three of us, 9 days, starting mid-June. British passports. Around 1000 dollars each.",
+  "today": "2026-03-01",
+  "brief": {
+    "groupSize": 3,
+    "nights": 8,
+    "startDate": "2026-06-15",
+    "endDate": "2026-06-23",
+    "budgetPpUsd": 1000,
+    "nationalities": [
+      "GB"
+    ],
+    "interests": [
+      "babusar",
+      "fairy meadows",
+      "driving"
+    ],
+    "fitness": "moderate",
+    "hasChildren": false,
+    "notes": "Babusar opens 07-01; mid-June is too early",
+    "missingFields": []
+  },
+  "notes": "A near miss rather than an obvious one: Fairy Meadows is open in mid-June but Babusar Pass does not open until July. Tests whether a partially-closed request is caught, or waved through because most of it works.",
+  "groundTruth": {
+    "operatorItinerary": null,
+    "quotedTotalUsd": null,
+    "operatorMinutesSpent": null
+  }
+}

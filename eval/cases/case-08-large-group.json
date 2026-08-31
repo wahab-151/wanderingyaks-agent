@@ -1,0 +1,32 @@
+{
+  "id": "case-08-large-group",
+  "provenance": "synthetic",
+  "difficulty": "moderate",
+  "inquiry": "Good afternoon. I am organising a trip for our university trekking society - 14 students. We want the Karakoram in late July, around 12 days, ideally including a base camp. Everyone is fit. We can spend about 600 USD each. All Pakistani nationals.",
+  "today": "2026-04-01",
+  "brief": {
+    "groupSize": 14,
+    "nights": 11,
+    "startDate": "2026-07-20",
+    "endDate": "2026-07-31",
+    "budgetPpUsd": 600,
+    "nationalities": [
+      "PK"
+    ],
+    "interests": [
+      "trekking",
+      "base camp",
+      "karakoram"
+    ],
+    "fitness": "high",
+    "hasChildren": false,
+    "notes": "Large group; needs more than one vehicle",
+    "missingFields": []
+  },
+  "notes": "Fourteen travellers exceeds every single vehicle in the inventory, so transport has to be multiplied. Tests group-size arithmetic and a tight per-person budget at scale.",
+  "groundTruth": {
+    "operatorItinerary": null,
+    "quotedTotalUsd": null,
+    "operatorMinutesSpent": null
+  }
+}

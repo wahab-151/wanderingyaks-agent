@@ -1,0 +1,33 @@
+{
+  "id": "case-09-luxury-short",
+  "provenance": "synthetic",
+  "difficulty": "easy",
+  "inquiry": "Hello - my wife and I would like four nights somewhere beautiful in northern Pakistan in late September. We want comfortable hotels, good food, and not much driving. Money is not a constraint. We are American.",
+  "today": "2026-06-01",
+  "brief": {
+    "groupSize": 2,
+    "nights": 4,
+    "startDate": "2026-09-24",
+    "endDate": "2026-09-28",
+    "budgetPpUsd": null,
+    "nationalities": [
+      "US"
+    ],
+    "interests": [
+      "comfort",
+      "scenery"
+    ],
+    "fitness": "low",
+    "hasChildren": false,
+    "notes": "No budget stated; premium tier appropriate",
+    "missingFields": [
+      "budgetPpUsd"
+    ]
+  },
+  "notes": "Short, unconstrained by budget, explicitly low-effort. Tests that the system does not over-pack a trip just because it can, and that an absent budget does not default to the cheapest option.",
+  "groundTruth": {
+    "operatorItinerary": null,
+    "quotedTotalUsd": null,
+    "operatorMinutesSpent": null
+  }
+}

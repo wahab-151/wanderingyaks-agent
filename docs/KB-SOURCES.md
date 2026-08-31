@@ -91,6 +91,41 @@ For each case, what is needed is:
    the business headline number. Nobody was recording it at the time, so an
    estimate labelled as an estimate is more credible than a fabricated precision.
 
-Suggested handling: export the threads, run them through a scrubbing pass, and
-have a human read every case before it is committed. Automated scrubbing alone
-is not sufficient for a repository that judges will read.
+### How to do it
+
+```bash
+npm run ingest -- --from path/to/whatsapp-exports/ --operator "Wandering Yaks"
+```
+
+Export the threads from WhatsApp (Chat -> Export chat -> Without media) into a
+folder and point the tool at it. For each thread it produces a draft case in
+`eval/cases-staging/`, which is gitignored.
+
+What it does:
+
+- Parses both WhatsApp export formats, joins multi-line messages, drops the
+  app's own system lines and `<Media omitted>` placeholders.
+- **Drops your replies.** `--operator` names your side of the thread. Your reply
+  contains the itinerary the agent is supposed to work out for itself, so
+  including it would score the agent on an enquiry that already holds the answer.
+- Redacts phone numbers, emails, URLs, social handles, CNICs, passport numbers,
+  and participant names (replaced with a stable `Customer A` so the thread still
+  reads as a conversation).
+- **Keeps** destinations, dates, party size, budget and nationality. Those are
+  what the brief is made of, and nationality drives permit rules.
+- **Flags but does not delete** capitalised words that might be people. Deleting
+  a place name silently breaks the case, so that call is yours, not a regular
+  expression's.
+
+Each draft carries a `_review` block listing what was redacted and what was only
+suspected. **`loadCases()` refuses any file that still has that block**, so a
+draft cannot reach the evaluation without someone having read it and deleted it
+deliberately.
+
+Then: read every draft line by line, fill in `today`, the brief and
+`groundTruth` from what you actually sent, delete `_review`, move the file into
+`eval/cases/`, and run `npm test`.
+
+Automated scrubbing alone is not a defensible standard for someone else's
+personal data in a repository judges will read. The tool does the mechanical
+part; the judgement stays with the person who ran the trip.

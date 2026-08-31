@@ -37,7 +37,7 @@ something different:
 
 | Variable | Default | What it does |
 |---|---|---|
-| `TENANT_ID` | `wanderingyaks` | Which directory under `kb/tenants/` to load |
+| `TENANT_ID` | `wanderingyaks` | Which directory under `kb/tenants/` to load. `highpass-demo` is a fictional second operator; see below. |
 | `MODEL` | `gpt-5` | Model for every LLM stage |
 | `SEND_MODE` | `simulate` | **Nothing is transmitted.** See "Nothing gets sent" below |
 
@@ -46,7 +46,7 @@ something different:
 Two commands need no API key and no network:
 
 ```bash
-npm test        # 106 assertions across schema, KB, verifier, scorer, gate, router
+npm test        # 121 assertions across schema, KB, verifier, scorer, gate, router, tenancy
 npm run kb:check
 ```
 
@@ -54,6 +54,17 @@ npm run kb:check
 season grid, the operating policy, and three worked itineraries run through the
 real verifier. Expect the April Deosai itinerary to be **BLOCKED** on three
 violations and the rerouted version to be **SENDABLE**.
+
+To see the multi-tenant claim rather than take it on trust:
+
+```bash
+npm run kb:check wanderingyaks     # 6h drive limit, 18% margin, 26 hotels
+npm run kb:check highpass-demo     # 9h drive limit, 12% margin, 16 hotels
+```
+
+Both share the same 32 locations and 43 road segments, because those are facts
+about Pakistan rather than about either company. `npm test` asserts that in both
+directions.
 
 It also ends by listing five files still carrying placeholder data. That is
 correct and expected - see "Honest limits" below.
@@ -64,10 +75,11 @@ correct and expected - see "Honest limits" below.
 npm run eval
 ```
 
-Runs three synthetic cases through three systems - `baseline`, `agent`,
+Runs eleven synthetic cases through three systems - `baseline`, `agent`,
 `agent-norepair` - and writes `eval/results/latest.md` and `latest.json`.
 
-**Expect roughly:**
+**Expect roughly** (figures below are from the earlier three-case sweep; the
+eleven-case numbers are in `eval/results/latest.md`, which is committed):
 
 | Metric | baseline | agent | agent-norepair |
 |---|---|---|---|
@@ -77,10 +89,18 @@ Runs three synthetic cases through three systems - `baseline`, `agent`,
 | Repair rounds used | – | 0 | 0 |
 | Cost per itinerary | $0.1453 | $0.0987 | $0.1178 |
 
-**Runtime:** about 25 minutes for all nine runs. Most of it is the model
-reasoning; roughly 75% of output tokens are reasoning tokens.
+**Runtime:** roughly 2.5 minutes per run, so about 25 minutes for a three-case
+sweep and around 80 minutes for all eleven cases across three systems. Most of
+it is the model reasoning; roughly 75% of output tokens are reasoning tokens.
 
-**Cost:** about **$1.10** for the full sweep at `gpt-5` prices.
+**Cost:** about **$0.12 per run** at `gpt-5` prices - roughly $1.10 for a
+three-case sweep, around $4 for the full eleven-case one.
+
+If you only want the headline quickly, run two systems on a few cases:
+
+```bash
+npm run eval -- --system baseline,agent --case case-01-april-deosai,case-07-permit-short-notice
+```
 
 **Expect variation.** Reasoning models do not accept a temperature, so runs are
 not deterministic. Violation counts have been stable across runs - they are
@@ -94,7 +114,25 @@ Narrower runs:
 npm run eval -- --system baseline
 npm run eval -- --case case-01-april-deosai
 npm run eval -- --system agent,baseline --case case-01-april-deosai
+npm run eval -- --tenant highpass-demo          # run as the second operator
 ```
+
+## Intake accuracy, measured separately
+
+```bash
+npm run eval:intake
+```
+
+Scores the brief intake extracts against the brief pinned on each case. This is
+a different question from the main evaluation - that one scores the itinerary
+coming out, this one scores the brief going in. A misread brief poisons
+everything downstream silently: if intake reads "8 days" as 8 nights, the
+verifier reports NIGHTS_MISMATCH three modules away from the actual fault.
+
+Critical fields (group size, nights, start date, nationality, children, and
+whether intake admits what it does not know) are reported separately from the
+rest, because being wrong about nationality can make a trip illegal while being
+wrong about interests just makes it less well targeted.
 
 ## A single itinerary, end to end
 
@@ -183,16 +221,19 @@ unverified files on every run and a test asserts that list is non-empty, so
 placeholders cannot ship pretending to be real. `docs/KB-SOURCES.md` enumerates
 exactly what is needed.
 
-**Evaluation cases are synthetic.** Three of them, all marked
+**Evaluation cases are synthetic.** Eleven of them, all marked
 `"provenance": "synthetic"`, written to exercise the pipeline rather than drawn
-from real customers. Real inquiry/itinerary pairs exist in WhatsApp threads and
+from real customers. Several are deliberately unanswerable as asked - a February
+enquiry when the high country is shut, a permit needing thirty days notice with
+four available, Rush Lake at 4694m in six days - because a system that only
+handles answerable enquiries has not been tested. Real inquiry/itinerary pairs exist in WhatsApp threads and
 sent PDFs but have not been extracted and anonymised. Until they are, price
 accuracy against a real quote and minutes saved against a real operator cannot
 be reported - and `npm run eval` prints that warning itself rather than leaving
 you to notice.
 
-**Three cases is a small sample.** Treat the direction as established and the
-magnitudes as provisional.
+**Eleven synthetic cases is still a small sample.** Treat the direction as
+established and the magnitudes as provisional.
 
 ## If something goes wrong
 

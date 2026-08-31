@@ -1,0 +1,31 @@
+{
+  "id": "case-05-family-with-children",
+  "provenance": "synthetic",
+  "difficulty": "moderate",
+  "inquiry": "Salaam, we are a family of 5 - two adults and three kids aged 6, 9 and 13. We want to visit Skardu in the summer holidays, first two weeks of August. Nothing too tiring for the little one. About a week. We are from Karachi. Budget around 400 dollars per person.",
+  "today": "2026-05-01",
+  "brief": {
+    "groupSize": 5,
+    "nights": 6,
+    "startDate": "2026-08-03",
+    "endDate": "2026-08-09",
+    "budgetPpUsd": 400,
+    "nationalities": [
+      "PK"
+    ],
+    "interests": [
+      "family",
+      "lakes"
+    ],
+    "fitness": "low",
+    "hasChildren": true,
+    "notes": "Three children, youngest is 6",
+    "missingFields": []
+  },
+  "notes": "Children and low fitness should shorten drive days and rule out altitude. Odd group size of 5 also tests room and vehicle arithmetic, which is where a per-person rate quietly goes wrong.",
+  "groundTruth": {
+    "operatorItinerary": null,
+    "quotedTotalUsd": null,
+    "operatorMinutesSpent": null
+  }
+}

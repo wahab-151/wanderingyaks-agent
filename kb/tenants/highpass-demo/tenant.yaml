@@ -1,0 +1,44 @@
+# A second, entirely fictional operator.
+#
+# WHY THIS EXISTS
+#
+# The README claims the engine is portable - that a second tour operator is a
+# new directory rather than a rewrite. That was an assertion with no evidence
+# behind it, which ground rule 09 does not allow.
+#
+# This directory is the evidence. High Pass Expeditions is invented: no such
+# company exists, and every rate here is fabricated. It operates in the same
+# valleys as the first tenant and shares the entire region layer - the same
+# roads, the same season windows, the same permit rules, because those are facts
+# about Pakistan rather than about either company.
+#
+# What differs is everything commercial: which properties they hold, what they
+# pay, and how hard they are willing to push a client. Run the same enquiry
+# against both and you get different trips at different prices from the same
+# geography, which is the whole claim.
+#
+#   npm run agent -- --tenant highpass-demo
+#   npm run kb:check highpass-demo
+#
+# No code changes hands to add this. It is a directory.
+id: highpass-demo
+name: High Pass Expeditions (fictional)
+regions: [gilgit-baltistan]
+currency: USD
+
+policy:
+  # A trekking outfit pushes longer road days than a cultural-touring operator.
+  # Their clients expect it; the first tenant's clients would complain.
+  maxDriveHoursPerDay: 9.0
+
+  # Tighter than the other tenant, not looser. This is the one threshold that
+  # is a medical guideline rather than a business preference, so tightening it
+  # is supported and relaxing it is not - a trekking operator taking people
+  # higher should be more conservative about ascent, not less.
+  altitudeRuleAboveM: 2500
+  maxSleepGainPerDayM: 450
+
+  # Thinner margin, higher volume.
+  marginPct: 0.12
+
+  budgetTolerancePct: 0.05

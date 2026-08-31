@@ -12,14 +12,16 @@ under `eval/results/`.
 
 Three limits apply to every figure below, and none of them are resolved yet:
 
-1. **Cases are synthetic.** Three of them. Real inquiry/itinerary pairs from
-   WhatsApp exist but have not been extracted and anonymised, so nothing here
-   is measured against what an operator actually sent. Target is 12-15.
+1. **Cases are synthetic.** Eleven of them as of iteration 8, up from three.
+   Real inquiry/itinerary pairs from WhatsApp exist but have not been extracted
+   and anonymised, so nothing here is measured against what an operator actually
+   sent. Figures in iterations 1-7 were taken on the original three cases and
+   are labelled as such.
 2. **Rates are placeholders.** No real cost data was available, so every price
    is arithmetic over invented numbers. Price accuracy is unreportable.
 3. **Runs are not deterministic.** Reasoning models do not accept a temperature,
-   so repeated runs vary. Single-run figures on three cases carry real noise;
-   treat small differences as noise until a variance pass says otherwise.
+   so repeated runs vary. Treat cost and latency differences under roughly 20%
+   as noise; see the variance section at the end for how that was estimated.
 
 ---
 
@@ -246,6 +248,48 @@ them is a changelog entry waiting to be written once real cases arrive.
 Verified end to end: an unapproved send refuses, an unapproved send under
 `SEND_MODE=live` refuses, an approval without an operator id refuses, and a
 second send of the same proposal refuses.
+
+---
+
+## Iteration 7 - Portability demonstrated instead of asserted
+
+**Why.** The README claimed a second operator was a directory rather than a
+rewrite. Nothing in the repository showed that, which ground rule 09 does not
+allow: a claim without evidence attached is not a claim.
+
+**What changed.** `kb/tenants/highpass-demo/` is a fictional trekking operator
+in the same valleys - its own properties, rates, catalogue and a 9-hour daily
+driving limit against the first tenant's 6. `src/multi-tenant.test.ts` asserts
+the layering holds in both directions.
+
+**Evidence.** 15 assertions covering: both tenants see identical locations,
+roads, seasons and permit rules; neither can book the other's properties; the
+same 7-hour drive is a violation for one and acceptable for the other; the same
+trip prices differently; the router scores against whichever catalogue is
+loaded. Adding the tenant required no code change.
+
+**Kept.**
+
+---
+
+## Iteration 8 - Eleven evaluation cases
+
+**Why.** The brief asks for ten or more cases where the task allows, and there
+were three. Three cases makes a direction visible but not a magnitude, and the
+three that existed were all fairly benign.
+
+**What changed.** Eight cases added, chosen to probe things the original three
+did not: a February enquiry when the high country is shut, a permit request with
+four days notice from nationals who need thirty, Rush Lake at 4694m in six days,
+a family with a six-year-old, fourteen travellers against a vehicle fleet that
+seats twelve, an enquiry that says almost nothing, and a route where one leg is
+open and the other is not.
+
+Several are deliberately unanswerable as asked. The correct output is a refusal
+with a reason, not a plausible itinerary.
+
+**Evidence.** _Full sweep across 11 cases and 3 systems running; results will
+land in `eval/results/`._
 
 ---
 

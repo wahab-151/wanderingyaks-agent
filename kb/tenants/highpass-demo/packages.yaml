@@ -1,0 +1,41 @@
+# Published catalogue for the fictional second operator.
+#
+# Different trips from the first tenant, because it is a different business:
+# treks and camping rather than forts and lake resorts. The router scores
+# against whichever catalogue the loaded tenant brings.
+meta:
+  tenant: highpass-demo
+  pricesVerified: false
+
+packages:
+  - id: hp_deosai_crossing_6d
+    title: Deosai Crossing
+    nights: 5
+    locations: [skardu, deosai, astore]
+    fitness: moderate
+    fromUsd: 540
+    bestMonths: [7, 8, 9]
+
+  - id: hp_rakaposhi_bc_7d
+    title: Rakaposhi Base Camp Trek
+    nights: 6
+    locations: [gilgit, minapin, rakaposhi_bc, karimabad]
+    fitness: high
+    fromUsd: 620
+    bestMonths: [6, 7, 8, 9]
+
+  - id: hp_hushe_valley_8d
+    title: Hushe Valley and the Masherbrum Approach
+    nights: 7
+    locations: [skardu, khaplu, hushe]
+    fitness: high
+    fromUsd: 700
+    bestMonths: [6, 7, 8, 9]
+
+  - id: hp_fairy_meadows_5d
+    title: Fairy Meadows Short Trek
+    nights: 4
+    locations: [chilas, fairy_meadows, gilgit]
+    fitness: moderate
+    fromUsd: 390
+    bestMonths: [5, 6, 7, 8, 9, 10]

@@ -1,0 +1,33 @@
+{
+  "id": "case-07-permit-short-notice",
+  "provenance": "synthetic",
+  "difficulty": "hard",
+  "inquiry": "We want to do Shimshal valley, leaving in four days. Two of us, both Indian passport holders currently in Islamabad. Money is not the issue.",
+  "today": "2026-06-01",
+  "brief": {
+    "groupSize": 2,
+    "nights": 6,
+    "startDate": "2026-06-05",
+    "endDate": "2026-06-11",
+    "budgetPpUsd": null,
+    "nationalities": [
+      "IN"
+    ],
+    "interests": [
+      "shimshal",
+      "trekking"
+    ],
+    "fitness": "high",
+    "hasChildren": false,
+    "notes": "Four days notice; Indian nationals need an NOC with 30 days lead time",
+    "missingFields": [
+      "budgetPpUsd"
+    ]
+  },
+  "notes": "Two permit problems at once: Shimshal needs 7 days for foreign nationals and Indian passport holders need a 30-day NOC. The trip as asked cannot legally run. Tests that the system refuses rather than sells it.",
+  "groundTruth": {
+    "operatorItinerary": null,
+    "quotedTotalUsd": null,
+    "operatorMinutesSpent": null
+  }
+}
