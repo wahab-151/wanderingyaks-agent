@@ -24,7 +24,7 @@ export const EvalCase = z.object({
   difficulty: z.enum(["easy", "moderate", "hard"]),
   inquiry: z.string().min(1),
   /** Pinned, so permit lead times do not drift as the calendar moves. */
-  today: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  today: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "expected YYYY-MM-DD (a draft from ingest still says TODO)"),
   /** Pinned until intake exists; then this becomes intake's expected output. */
   brief: Brief,
   notes: z.string(),
@@ -49,6 +49,16 @@ export function loadCases(only?: string[]): EvalCase[] {
       raw = JSON.parse(readFileSync(path, "utf8"));
     } catch (cause) {
       throw new Error(`malformed JSON in eval case ${file}: ${(cause as Error).message}`);
+    }
+
+    // A draft straight out of `npm run ingest` must not be loadable. It still
+    // carries TODO placeholders and, more importantly, has not been read by a
+    // human - which is the whole point of the staging step.
+    if (typeof raw === "object" && raw !== null && "_review" in raw) {
+      throw new Error(
+        `eval case ${file} still carries its _review block, so nobody has confirmed ` +
+          `it is safe to publish. Read it, fill in the brief, delete _review, then re-run.`,
+      );
     }
 
     const parsed = EvalCase.safeParse(raw);

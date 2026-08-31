@@ -1,0 +1,32 @@
+{
+  "id": "case-12-thread-changes-mind",
+  "provenance": "synthetic",
+  "difficulty": "hard",
+  "inquiry": "Hi, we are 3 friends thinking about Fairy Meadows in early October, maybe 6 days. Budget about 800 each, we are Canadian.\n\nActually scratch that - two more friends want to come so we are 5 now.\n\nAnd we were talking and we would rather do Hunza than Fairy Meadows. Same dates though. Sorry for the mess!",
+  "today": "2026-06-01",
+  "brief": {
+    "groupSize": 5,
+    "nights": 5,
+    "startDate": "2026-10-05",
+    "endDate": "2026-10-10",
+    "budgetPpUsd": 800,
+    "nationalities": [
+      "CA"
+    ],
+    "interests": [
+      "hunza"
+    ],
+    "fitness": "low",
+    "hasChildren": false,
+    "notes": "Customer revised twice: group grew from 3 to 5, destination changed from Fairy Meadows to Hunza. Later messages supersede earlier ones.",
+    "missingFields": [
+      "fitness"
+    ]
+  },
+  "notes": "A thread rather than a single message. The customer contradicts themselves twice, and the last statement wins on each point. Tests that intake reads the whole thread and resolves the contradictions rather than averaging them or taking the first mention - the failure mode is a trip for 3 people to Fairy Meadows, which nobody asked for by the end. Also the case the build spec's threading and debounce design exists to handle, reduced to the part that can be tested without an inbound server.",
+  "groundTruth": {
+    "operatorItinerary": null,
+    "quotedTotalUsd": null,
+    "operatorMinutesSpent": null
+  }
+}

@@ -175,6 +175,8 @@ npm test                      # no key needed - 121 assertions
 npm run agent                 # one inquiry, end to end
 npm run eval                  # baseline vs agent, writes eval/results/
 npm run review                # what is waiting for an operator
+npm run eval:intake           # how accurately intake reads an enquiry
+npm run ingest -- --from <folder> --operator "Your Company"
 ```
 
 Useful flags:

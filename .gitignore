@@ -5,3 +5,4 @@ trajectories/*
 !trajectories/samples/
 !trajectories/samples/**
 *.tsbuildinfo
+eval/cases-staging/

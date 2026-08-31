@@ -15,7 +15,8 @@
     "eval": "tsx eval/run-eval.ts",
     "agent": "tsx src/run-agent.ts",
     "review": "tsx src/run-review.ts",
-    "eval:intake": "tsx eval/intake-accuracy.ts"
+    "eval:intake": "tsx eval/intake-accuracy.ts",
+    "ingest": "tsx eval/ingest.ts"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
